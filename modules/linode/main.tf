@@ -36,4 +36,5 @@ data "linode_instances" "vms" {
     values = ["shapeblock", each.key]
   }
   depends_on = [linode_instance.vm]
+  order_by   = "id"
 }
