@@ -19,3 +19,10 @@ provider "linode" {
   token = var.linode_token
   alias = "linode"
 }
+
+provider "aws" {
+  region     = var.region
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  alias      = "aws"
+}
