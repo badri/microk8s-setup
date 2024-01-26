@@ -100,6 +100,7 @@ resource "aws_security_group_rule" "kubelet_api" {
   to_port           = 10250
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kubelet read-only port (TCP 10255)
@@ -110,6 +111,7 @@ resource "aws_security_group_rule" "kubelet_readonly" {
   to_port           = 10255
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for etcd (TCP 12379)
@@ -120,6 +122,7 @@ resource "aws_security_group_rule" "etcd" {
   to_port           = 12379
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-controller (TCP 10257)
@@ -130,6 +133,7 @@ resource "aws_security_group_rule" "kube_controller" {
   to_port           = 10257
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-scheduler (TCP 10259)
@@ -140,6 +144,7 @@ resource "aws_security_group_rule" "kube_scheduler" {
   to_port           = 10259
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for dqlite (TCP 19001)
@@ -150,6 +155,7 @@ resource "aws_security_group_rule" "dqlite" {
   to_port           = 19001
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for Calico networking (UDP port 4789)
@@ -160,6 +166,7 @@ resource "aws_security_group_rule" "calico" {
   to_port           = 4789
   protocol          = "udp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kubelet localhost healthz endpoint (TCP 10248)
@@ -170,6 +177,7 @@ resource "aws_security_group_rule" "healthz" {
   to_port           = 10248
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-proxy metrics server (TCP 10249)
@@ -180,6 +188,7 @@ resource "aws_security_group_rule" "kubeproxy_metrics" {
   to_port           = 10249
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-scheduler HTTP (TCP 10251)
@@ -190,6 +199,7 @@ resource "aws_security_group_rule" "kube_scheduler_http" {
   to_port           = 10251
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-controller HTTP (TCP 10252)
@@ -200,6 +210,7 @@ resource "aws_security_group_rule" "kube_controller_http" {
   to_port           = 10252
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for kube-proxy health check server (TCP 10256)
@@ -210,6 +221,7 @@ resource "aws_security_group_rule" "healthcheck" {
   to_port           = 10256
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for etcd peer connections (TCP 2380)
@@ -220,6 +232,7 @@ resource "aws_security_group_rule" "etcd_peer" {
   to_port           = 2380
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 # Ingress rule for containerd metrics port (TCP 1338)
@@ -230,6 +243,7 @@ resource "aws_security_group_rule" "containerd" {
   to_port           = 1338
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_ssh.id
+  self              = true
 }
 
 
