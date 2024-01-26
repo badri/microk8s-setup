@@ -55,6 +55,18 @@ variable "linode_token" {
   sensitive   = true
 }
 
+variable "aws_access_key" {
+  description = "AWS Access key"
+  type        = string
+  sensitive   = true
+}
+
+variable "aws_secret_key" {
+  description = "AWS Secret key"
+  type        = string
+  sensitive   = true
+}
+
 variable "dns_provider" {
   description = "DNS provider to use. Can be 'godaddy' or 'dnsimple'."
   type        = string
