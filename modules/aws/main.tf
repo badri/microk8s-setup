@@ -78,6 +78,15 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
+  # Rule for kubelet API (port 10250) from instances within the same security group
+  ingress {
+    description              = "kubelet API"
+    from_port                = 10250
+    to_port                  = 10250
+    protocol                 = "tcp"
+    source_security_group_id = aws_security_group.allow_ssh.id  # Referencing the same security group
+  }
+
    # Outbound rule: Allow all outbound traffic for internet access
   egress {
     from_port   = 0
