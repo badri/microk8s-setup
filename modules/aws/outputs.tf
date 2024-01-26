@@ -1,11 +1,7 @@
 output "vm_info" {
   value = {
     for instance in aws_instance.vm :
-    instance.id => {
-      "name"       = instance.tags["Name"]
-      "public_ip"  = instance.public_ip
-      "private_ip" = instance.private_ip
-    }
+    instance.tags["Name"] => instance.public_ip
   }
   description = "Information about each VM, including name, public IP, and private IP."
 }
