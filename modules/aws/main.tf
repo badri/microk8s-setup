@@ -21,7 +21,7 @@ locals {
   vms = flatten([
     for node_group in var.node_group_config : [
       for i in range(node_group.count) : {
-        name = "${node_group.name}-${i}"
+        name = "${node_group.name}"
         type = node_group.size
         id   = node_group.id
       }
