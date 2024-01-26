@@ -33,19 +33,49 @@ resource "aws_security_group" "allow_ssh" {
   name        = "security-group-${var.ssh_key_prefix}"
   description = "Allow SSH inbound traffic"
 
+  # Existing rule for SSH (port 22)
   ingress {
-    description = "SSH from anywhere"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Be cautious, this allows SSH from any IP. Consider limiting to known IPs.
+    description      = "SSH from anywhere"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1" # -1 means all protocols
-    cidr_blocks = ["0.0.0.0/0"]
+  # Rule for Kubernetes API server (port 16443)
+  ingress {
+    description      = "Kubernetes API server"
+    from_port        = 16443
+    to_port          = 16443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  # Rule for MicroK8s node join port (port 25000)
+  ingress {
+    description      = "MicroK8s node join port"
+    from_port        = 25000
+    to_port          = 25000
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  # Rule for HTTP (port 80)
+  ingress {
+    description      = "HTTP traffic"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  # Rule for HTTPS (port 443)
+  ingress {
+    description      = "HTTPS traffic"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   tags = {
