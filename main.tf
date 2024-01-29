@@ -52,20 +52,8 @@ module "linode_vms" {
   }
 }
 
-module "aws_vms" {
-  source            = "./modules/aws"
-  count             = var.cloud_provider == "aws" ? 1 : 0
-  ssh_key_prefix    = random_id.ssh_key_id.hex
-  ssh_key           = tls_private_key.ssh_key.public_key_openssh
-  node_group_config = var.node_group_config
-
-  providers = {
-    aws = aws.aws
-  }
-}
-
 locals {
-  selected_module = (var.cloud_provider == "digitalocean") ? module.digitalocean_vms[0] : (var.cloud_provider == "linode") ? module.linode_vms[0] : (var.cloud_provider == "aws") ? module.aws_vms[0] : null
+  selected_module = (var.cloud_provider == "digitalocean") ? module.digitalocean_vms[0] : (var.cloud_provider == "linode") ? module.linode_vms[0] : null
 }
 
 locals {
