@@ -29,17 +29,14 @@ resource "linode_instance" "vm" {
   type            = each.value.size
   image           = var.image
   authorized_keys = [linode_sshkey.ssh_key.ssh_key]
-  tags            = ["shapeblock", each.value.name, each.value.id]
+  tags            = ["shapeblock", var.cluster_uuid]
   root_pass       = random_password.root_password.result
 }
 
 data "linode_instances" "vms" {
-  for_each = {
-    for node_group in var.node_group_config : node_group.name => node_group
-  }
   filter {
     name   = "tags"
-    values = ["shapeblock", each.key]
+    values = ["shapeblock", var.cluster_uuid]
   }
   depends_on = [linode_instance.vm]
   order_by   = "id"

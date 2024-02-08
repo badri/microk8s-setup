@@ -28,3 +28,7 @@ variable "image" {
   default     = "linode/ubuntu22.04"
   description = "Base image for the VMs"
 }
+
+variable "cluster_uuid" {
+  type = string
+}

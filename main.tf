@@ -32,7 +32,7 @@ module "digitalocean_vms" {
   region            = var.region
   node_group_config = var.node_group_config
   image             = var.image
-
+  cluster_uuid      = var.cluster_uuid
   providers = {
     digitalocean = digitalocean.digitalocean
   }
@@ -46,7 +46,7 @@ module "linode_vms" {
   region            = var.region
   node_group_config = var.node_group_config
   image             = var.image
-
+  cluster_uuid      = var.cluster_uuid
   providers = {
     linode = linode.linode
   }
@@ -58,19 +58,19 @@ locals {
 
 locals {
   inventory = templatefile("${path.module}/hosts.tpl", {
-    ha_host      = local.selected_module.ha_host
-    ha_ip        = local.selected_module.ha_ip
-    node_groups  = var.node_group_config
-    vms          = local.selected_module.vm_info
-    email        = var.email
-    dns          = var.dns
-    tld          = var.tld
-    sb_url       = var.sb_url
-    cluster_uuid = var.cluster_uuid
-    password     = random_password.registry_password.result
-    root_pass    = (var.cloud_provider == "linode") ? local.selected_module.root_pass : null
+    ha_host        = local.selected_module.ha_host
+    ha_ip          = local.selected_module.ha_ip
+    node_groups    = var.node_group_config
+    vms            = local.selected_module.vm_info
+    email          = var.email
+    dns            = var.dns
+    tld            = var.tld
+    sb_url         = var.sb_url
+    cluster_uuid   = var.cluster_uuid
+    password       = random_password.registry_password.result
+    root_pass      = (var.cloud_provider == "linode") ? local.selected_module.root_pass : null
     cloud_provider = var.cloud_provider
-    username     = (var.cloud_provider == "aws") ? "ubuntu" : "root"
+    username       = (var.cloud_provider == "aws") ? "ubuntu" : "root"
   })
 }
 

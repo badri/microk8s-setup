@@ -28,3 +28,7 @@ variable "image" {
   default     = "ubuntu-22-04-x64"
   description = "Base image for the VMs"
 }
+
+variable "cluster_uuid" {
+  type = string
+}
