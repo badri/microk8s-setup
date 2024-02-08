@@ -12,3 +12,7 @@ output "ha_host" {
 output "ha_ip" {
   value = lookup(data.linode_instances.vms, var.node_group_config.0.name).instances.0.ip_address
 }
+
+output "root_pass" {
+  value = random_password.root_password.result
+}

@@ -14,6 +14,11 @@ resource "linode_sshkey" "ssh_key" {
   label   = "terraform-ssh-key-${var.ssh_key_prefix}"
   ssh_key = chomp(var.ssh_key)
 }
+resource "random_password" "root_password" {
+  length  = 30
+  upper   = false
+  special = false
+}
 
 resource "linode_instance" "vm" {
   for_each = {
@@ -25,6 +30,7 @@ resource "linode_instance" "vm" {
   image           = var.image
   authorized_keys = [linode_sshkey.ssh_key.ssh_key]
   tags            = ["shapeblock", each.value.name, each.value.id]
+  root_pass       = random_password.root_password.result
 }
 
 data "linode_instances" "vms" {
