@@ -12,7 +12,7 @@ ${name} ansible_ssh_host=${ip}
 
 [all:vars]
 ansible_ssh_user=${username}
-%{ if cloud_provider == 'linode' ~}
+%{ if cloud_provider == "linode" ~}
 ansible_ssh_pass=${root_pass}
 %{ endif ~}
 ansible_ssh_private_key_file=private-key
