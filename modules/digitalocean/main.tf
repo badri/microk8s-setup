@@ -25,14 +25,17 @@ resource "digitalocean_droplet" "vm" {
   size       = each.value.size
   image      = var.image
   ssh_keys   = [digitalocean_ssh_key.ssh_key.id]
-  tags       = ["shapeblock", var.cluster_uuid]
+  tags       = ["shapeblock", var.cluster_uuid, each.value.name, each.value.id]
   monitoring = true # Enable monitoring if desired
 }
 
 data "digitalocean_droplets" "vms" {
+  for_each = {
+    for node_group in var.node_group_config : node_group.name => node_group
+  }
   filter {
     key    = "tags"
-    values = ["shapeblock", var.cluster_uuid]
+    values = ["shapeblock", var.cluster_uuid, each.key]
     all    = true
   }
   depends_on = [digitalocean_droplet.vm]
