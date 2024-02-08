@@ -68,7 +68,7 @@ locals {
     sb_url       = var.sb_url
     cluster_uuid = var.cluster_uuid
     password     = random_password.registry_password.result
-    root_pass    = (var.cloud_provider == "linode") local.selected_module.root_pass : null
+    root_pass    = (var.cloud_provider == "linode") ? local.selected_module.root_pass : null
     cloud_provider = var.cloud_provider
     username     = (var.cloud_provider == "aws") ? "ubuntu" : "root"
   })
