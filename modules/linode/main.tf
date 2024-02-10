@@ -39,7 +39,7 @@ data "linode_instances" "vms" {
   }
   filter {
     name   = "tags"
-    values = ["shapeblock", var.cluster_uuid, each.key]
+    values = [var.cluster_uuid, each.key]
   }
   depends_on = [linode_instance.vm]
   order_by   = "id"
