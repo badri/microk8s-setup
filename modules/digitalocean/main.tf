@@ -35,7 +35,7 @@ data "digitalocean_droplets" "vms" {
   }
   filter {
     key    = "tags"
-    values = ["shapeblock", var.cluster_uuid, each.key]
+    values = [var.cluster_uuid, each.key]
     all    = true
   }
   depends_on = [digitalocean_droplet.vm]
