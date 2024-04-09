@@ -3,10 +3,6 @@ variable "region" {
   description = "Cloud provider region"
 }
 
-variable "dns" {
-  type = string
-}
-
 variable "image" {
   type        = string
   description = "Base image for the VMs"
@@ -22,25 +18,17 @@ variable "node_group_config" {
   description = "Node group configuration for VM deployment"
 }
 
-variable "tld" {
-  type    = string
-  default = "shapeblockapp.com"
-}
-
-variable "sb_url" {
-  type = string
-}
-
 variable "cluster_uuid" {
-  type = string
-}
-
-variable "email" {
   type = string
 }
 
 variable "cloud_provider" {
   type = string
+
+  validation {
+    condition     = contains(["linode", "digitalocean"], var.cloud_provider)
+    error_message = "Must be either \"linode\" or \"digitalocean\"."
+  }
 }
 
 variable "do_token" {
@@ -51,37 +39,6 @@ variable "do_token" {
 
 variable "linode_token" {
   description = "Linode API token"
-  type        = string
-  sensitive   = true
-}
-
-variable "dns_provider" {
-  description = "DNS provider to use. Can be 'godaddy' or 'dnsimple'."
-  type        = string
-}
-
-# Variables for GoDaddy provider configuration
-variable "godaddy_api_key" {
-  description = "API key for GoDaddy provider"
-  type        = string
-  sensitive   = true
-}
-
-variable "godaddy_secret" {
-  description = "Secret key for GoDaddy provider"
-  type        = string
-  sensitive   = true
-}
-
-# Variable for DNSimple provider configuration
-variable "dnsimple_token" {
-  description = "Token for DNSimple provider"
-  type        = string
-  sensitive   = true
-}
-
-variable "dnsimple_account" {
-  description = "DNSimple account"
   type        = string
   sensitive   = true
 }
