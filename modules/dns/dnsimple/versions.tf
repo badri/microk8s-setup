@@ -4,7 +4,7 @@ terraform {
   required_providers {
     dnsimple = {
       source  = "registry.terraform.io/dnsimple/dnsimple"
-      version = "1.6.0"
+      version = "1.3.1"
     }
   }
 }

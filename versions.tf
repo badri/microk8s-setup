@@ -8,7 +8,7 @@ terraform {
     }
     dnsimple = {
       source  = "registry.terraform.io/dnsimple/dnsimple"
-      version = "1.6.0"
+      version = "1.3.1"
     }
     digitalocean = {
       source  = "registry.terraform.io/digitalocean/digitalocean"
