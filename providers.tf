@@ -14,3 +14,9 @@ provider "aws" {
   secret_key = var.aws_secret_key
   alias      = "aws"
 }
+
+provider "dnsimple" {
+  alias   = "dnsimple"
+  token   = var.dnsimple_token
+  account = var.dnsimple_account
+}
