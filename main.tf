@@ -81,3 +81,19 @@ module "dnsimple_dns" {
     dnsimple = dnsimple.dnsimple
   }
 }
+
+locals {
+  # Create Ansible inventory content in INI format
+  ansible_inventory = join("\n", [
+    "[all]",
+    join("\n", [
+      for node in jsondecode(local.node_list_json) :
+      "${node.hostname} ansible_host=${node.ip}"
+    ])
+  ])
+}
+
+resource "local_file" "ansible_inventory" {
+  filename = "${path.module}/inventory"
+  content  = local.ansible_inventory
+}
