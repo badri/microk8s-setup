@@ -1,0 +1,34 @@
+region = "blr1"
+
+
+image = "ubuntu-22-04-x64"
+do_token = "dop_v1_xxxx"
+linode_token = "ignored"
+
+
+
+
+
+
+node_group_config = [
+
+  {
+    name  = "node-01-vn5vbf"
+    size  = "s-2vcpu-4gb"
+    id    = "b49735ca-3f9f-4a4a-ba3c-bfcfc7259507"
+    count = 1
+  },
+
+  {
+    name  = "node-02-fad6fb"
+    size  = "s-2vcpu-4gb"
+    id    = "cb5d27d9-5657-4b96-9fed-38c2a4403c5c"
+    count = 1
+  }
+
+]
+
+cloud_provider = "digitalocean"
+
+cluster_uuid = "e8fa79f6-b005-4547-8afa-547ad644ce3d"
+
