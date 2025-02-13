@@ -42,3 +42,24 @@ variable "linode_token" {
   type        = string
   sensitive   = true
 }
+
+variable "dns" {
+  type = string
+}
+
+variable "tld" {
+  type    = string
+  default = "shapeblockapp.com"
+}
+
+variable "dnsimple_token" {
+  description = "Token for DNSimple provider"
+  type        = string
+  sensitive   = true
+}
+
+variable "dnsimple_account" {
+  description = "DNSimple account"
+  type        = string
+  sensitive   = true
+}

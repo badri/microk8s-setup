@@ -71,6 +71,17 @@ resource "local_file" "vms" {
   filename = "${path.module}/vms"
 }
 
+module "dnsimple_dns" {
+  source = "./modules/dns/dnsimple"
+  dns    = var.dns
+  tld    = var.tld
+  ha_ip  = local.selected_module.ha_ip
+
+  providers = {
+    dnsimple = dnsimple.dnsimple
+  }
+}
+
 locals {
   # Create Ansible inventory content in INI format
   ansible_inventory = join("\n", [
