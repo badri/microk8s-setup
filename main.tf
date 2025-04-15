@@ -18,12 +18,6 @@ resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
 }
 
-resource "random_password" "registry_password" {
-  length  = 30
-  upper   = false
-  special = false
-}
-
 module "digitalocean_vms" {
   source            = "./modules/digitalocean"
   count             = var.cloud_provider == "digitalocean" ? 1 : 0
@@ -56,27 +50,20 @@ locals {
   selected_module = (var.cloud_provider == "digitalocean") ? module.digitalocean_vms[0] : (var.cloud_provider == "linode") ? module.linode_vms[0] : null
 }
 
+
 locals {
-  inventory = templatefile("${path.module}/hosts.tpl", {
-    ha_host        = local.selected_module.ha_host
-    ha_ip          = local.selected_module.ha_ip
-    node_groups    = var.node_group_config
-    vms            = local.selected_module.vm_info
-    email          = var.email
-    dns            = var.dns
-    tld            = var.tld
-    sb_url         = var.sb_url
-    cluster_uuid   = var.cluster_uuid
-    password       = random_password.registry_password.result
-    root_pass      = (var.cloud_provider == "linode") ? local.selected_module.root_pass : null
-    cloud_provider = var.cloud_provider
-    username       = (var.cloud_provider == "aws") ? "ubuntu" : "root"
-  })
+  node_list_json = jsonencode([
+    for hostname, ip in local.selected_module.vm_info : {
+      hostname = hostname
+      ip       = ip
+    }
+  ])
 }
 
-resource "local_file" "inventory" {
-  content  = local.inventory
-  filename = "${path.module}/inventory"
+# Save the JSON content to a file
+resource "local_file" "node_list_file" {
+  filename = "${path.module}/devices.json"
+  content  = local.node_list_json
 }
 
 resource "local_file" "vms" {
@@ -84,23 +71,8 @@ resource "local_file" "vms" {
   filename = "${path.module}/vms"
 }
 
-/* DNS */
-
-module "godaddy_dns" {
-  source = "./modules/dns/godaddy"
-  count  = var.dns_provider == "godaddy" ? 1 : 0
-  dns    = var.dns
-  tld    = var.tld
-  ha_ip  = local.selected_module.ha_ip
-
-  providers = {
-    godaddy = godaddy.godaddy
-  }
-}
-
 module "dnsimple_dns" {
   source = "./modules/dns/dnsimple"
-  count  = var.dns_provider == "dnsimple" ? 1 : 0
   dns    = var.dns
   tld    = var.tld
   ha_ip  = local.selected_module.ha_ip
@@ -108,4 +80,20 @@ module "dnsimple_dns" {
   providers = {
     dnsimple = dnsimple.dnsimple
   }
+}
+
+locals {
+  # Create Ansible inventory content in INI format
+  ansible_inventory = join("\n", [
+    "[all]",
+    join("\n", [
+      for node in jsondecode(local.node_list_json) :
+      "${node.hostname} ansible_host=${node.ip}"
+    ])
+  ])
+}
+
+resource "local_file" "ansible_inventory" {
+  filename = "${path.module}/inventory"
+  content  = local.ansible_inventory
 }
